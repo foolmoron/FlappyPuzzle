@@ -4,6 +4,7 @@ Client.prototype.load = function () {
 		"blueblock.png",
 		"yellowblock.png",
 		"greenblock.png",
+		"whiteblock.png",
 	];	
 	SPRITE_DESCRIPTIONS.forEach(function(description) {
 		var index = description.split(".")[0].replace(/(\/|\\)/g, ''); // collapse whole path into a no-slash string

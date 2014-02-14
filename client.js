@@ -4,6 +4,9 @@ FP = window.FP || {};
 FP.SPRITE_DIRECTORY = "./sprites/";
 FP.AUDIO_DIRECTORY = "./audio/";
 
+FP.BLOCK_SIZE = 64;
+FP.PLATFORM_CENTER = -128;
+
 FP.tex = {}; // holds all textures
 
 var Client = IgeClass.extend({
@@ -75,28 +78,20 @@ var Client = IgeClass.extend({
 	},
 	
 	setupEntities: function() {
-		this.redBlock = new IgeEntity()
-			.texture(FP.tex['redblock'])
-			.dimensionsFromCell()
-			.translateTo(100, 0, 0)
+		var self = this;
+		
+		this.platform = new Platform(FP.BLOCK_SIZE)
+			.translateTo(FP.PLATFORM_CENTER, 350, 0)
 			.mount(this.gameScene)
 			;
-		this.blueBlock = new IgeEntity()
-			.texture(FP.tex['blueblock'])
-			.dimensionsFromCell()
-			.translateTo(100, 100, 0)
-			.mount(this.gameScene)
-			;
-		this.yellowBlock = new IgeEntity()
-			.texture(FP.tex['yellowblock'])
-			.dimensionsFromCell()
-			.translateTo(-100, 0, 0)
-			.mount(this.gameScene)
-			;
-		this.greenBlock = new IgeEntity()
-			.texture(FP.tex['greenblock'])
-			.dimensionsFromCell()
-			.translateTo(-100, 100, 0)
+		this.stream = new BlockStream(-640, FP.PLATFORM_CENTER, 640, 20, FP.BLOCK_SIZE, 100)
+			.mouseDown(function() {
+				var clearedBlocks = self.stream.clearCenterBlocks();
+				if (clearedBlocks) {
+					self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
+				}
+				ige.input.stopPropagation();
+			})
 			.mount(this.gameScene)
 			;
 	},
