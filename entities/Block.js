@@ -35,6 +35,7 @@ var Block = IgeEntity.extend({
 		if (toggle === undefined)
 			return this._hidden;
 			
+		this._hidden = toggle;
 		if (toggle) {
 			this.opacity(0);
 		} else {
