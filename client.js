@@ -85,15 +85,24 @@ var Client = IgeClass.extend({
 			.mount(this.gameScene)
 			;
 		this.stream = new BlockStream(-640, FP.PLATFORM_CENTER, 640, 20, FP.BLOCK_SIZE, 100)
-			.mouseDown(function() {
-				var clearedBlocks = self.stream.clearCenterBlocks();
-				if (clearedBlocks) {
-					self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
-				}
-				ige.input.stopPropagation();
-			})
 			.mount(this.gameScene)
 			;
+			
+		var click = function() {
+			var clearedBlocks = self.stream.clearCenterBlocks();
+			if (clearedBlocks) {
+				self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
+				if (self.platform.rowCount() === 3) {
+					var linePoints = self.platform.evaluateLines();
+					self.platform.setPointsText(linePoints);
+				} else {
+					self.platform.setPointsText(null);
+				}
+			}
+			ige.input.stopPropagation();
+		}
+		window.addEventListener('mousedown', click);
+		window.addEventListener('touchstart', click);
 	},
 });
 

@@ -9,9 +9,18 @@ var Block = IgeEntity.extend({
 			var randomKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
 			type = Block.COLOR[randomKey];
 		}
-		this._type = type;
-		this._hidden = false;
+		this.type(type);
+		this.hidden(false);
 		
+		this.dimensionsFromCell()
+			;
+	},
+	
+	type: function(type) {
+		if (type == undefined)
+			return this._type;
+		
+		this._type = type;
 		switch (type) {
 		case Block.COLOR.RED:
 			this.texture(FP.tex['redblock']);
@@ -26,9 +35,7 @@ var Block = IgeEntity.extend({
 			this.texture(FP.tex['yellowblock']);
 			break;
 		}
-		
-		this.dimensionsFromCell()
-			;
+		return this;
 	},
 	
 	hidden: function(toggle) {
@@ -41,6 +48,7 @@ var Block = IgeEntity.extend({
 		} else {
 			this.opacity(1);
 		}
+		return this;
 	},
 });
 Block.COLOR = { RED: 'red', BLUE: 'blue', GREEN: 'green', YELLOW: 'yellow' };
