@@ -253,6 +253,12 @@ body {
 	position: absolute;
 	width: 100%;
 	top: 0px;
+	
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	-o-user-select: none;
+	user-select: none;
 }
 
 .footer {
@@ -261,4 +267,10 @@ body {
 	position: absolute;
 	width: 100%;
 	bottom: 0px;
+	
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	-o-user-select: none;
+	user-select: none;
 }
