@@ -12,8 +12,30 @@ var Block = IgeEntity.extend({
 		this.type(type);
 		this.hidden(false);
 		
+		this._rainbowCell = 0;
+		this._rainbowTimer = 0;
+		this.RAINBOW_INTERVAL = 50; //s
+		
 		this.dimensionsFromCell()
+			.addBehaviour('animateRainbow', this._animateRainbow);
 			;
+	},
+	
+	_animateRainbow: function() {
+		if (!this._isRainbow)
+			return;
+			
+		this._rainbowTimer += ige._tickDelta;
+		if (this._rainbowTimer >= this.RAINBOW_INTERVAL) {				
+			var numCells = this.texture()._cells[1].length;
+			
+			if (Math.random() > 0.5) // mix things up a bit
+				this._rainbowCell++;
+			
+			this._rainbowCell = (this._rainbowCell + 1) % numCells;
+			this.cell(this._rainbowCell + 1); // cells indexed at 1
+			this._rainbowTimer = 0;
+		}
 	},
 	
 	type: function(type) {
@@ -21,9 +43,11 @@ var Block = IgeEntity.extend({
 			return this._type;
 		
 		this._type = type;
+		this._isRainbow = false;
 		switch (type) {
 		case Block.COLOR.RED:
 			this.texture(FP.tex['redblock']);
+			this._
 			break;
 		case Block.COLOR.BLUE:
 			this.texture(FP.tex['blueblock']);
@@ -33,6 +57,10 @@ var Block = IgeEntity.extend({
 			break;
 		case Block.COLOR.YELLOW:
 			this.texture(FP.tex['yellowblock']);
+			break;
+		case Block.COLOR.RAINBOW:
+			this.texture(FP.tex['rainbowblock']);
+			this._isRainbow = true;
 			break;
 		}
 		return this;
@@ -51,6 +79,6 @@ var Block = IgeEntity.extend({
 		return this;
 	},
 });
-Block.COLOR = { RED: 'red', BLUE: 'blue', GREEN: 'green', YELLOW: 'yellow' };
+Block.COLOR = { RED: 'red', BLUE: 'blue', GREEN: 'green', YELLOW: 'yellow', RAINBOW: 'rainbow' };
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = Block; }
