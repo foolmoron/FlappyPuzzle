@@ -12,6 +12,7 @@ var BlockStream = IgeEntity.extend({
 		
 		var numBlocks = Math.floor((rightEdge - leftEdge) / blockSize);
 		this._numBlocks = numBlocks;
+		this._blocksSinceRainbow = numBlocks;
 		
 		this.texture(FP.tex['whiteblock'])
 			.bounds2d(rightEdge - leftEdge, blockSize * 2)
@@ -53,13 +54,20 @@ var BlockStream = IgeEntity.extend({
 			var block = this._blocks[i];
 			if (block._translate.x <= this._leftEdge) {
 				block.destroy();
-				var nextBlockType = (this._nextBlockRainbow)? Block.COLOR.RAINBOW : "random";
+				
+				var nextBlockType = "random";
+				if (this._nextBlockRainbow && (this._blocksSinceRainbow >= this._numBlocks)) { // spawn rainbow once every numBlocks at MOST
+					nextBlockType = Block.COLOR.RAINBOW;
+					this._blocksSinceRainbow = 0;
+					this._nextBlockRainbow = false;
+				}
+				
 				block = this._blocks[i] = new Block(nextBlockType)
 					.translateTo(this._rightEdge - (this._leftEdge - block._translate.x), 0, 0)
 					.mount(this)
 					.depth(10)
-					; 
-				this._nextBlockRainbow = false;
+					;
+				this._blocksSinceRainbow++;
 			}
 			block.translateBy(this._velocityX * dt, 0, 0);
 		}
@@ -84,6 +92,14 @@ var BlockStream = IgeEntity.extend({
 			
 			return clearedBlocks;
 		}
+	},
+	
+	velocityX: function(value) {
+		if (value === undefined)
+			return this._velocityX;
+			
+		this._velocityX = value;
+		return this;
 	},
 });
 
