@@ -4,7 +4,7 @@ FP = window.FP || {};
 FP.SPRITE_DIRECTORY = "./sprites/";
 FP.AUDIO_DIRECTORY = "./audio/";
 
-FP.BLOCK_SIZE = 64;
+FP.BLOCK_SIZE = 32;
 FP.PLATFORM_CENTER = -128;
 
 FP.tex = {}; // holds all textures
@@ -81,10 +81,10 @@ var Client = IgeClass.extend({
 		var self = this;
 		
 		this.platform = new Platform(FP.BLOCK_SIZE)
-			.translateTo(FP.PLATFORM_CENTER, 350, 0)
+			.translateTo(FP.PLATFORM_CENTER, 175, 0)
 			.mount(this.gameScene)
 			;
-		this.stream = new BlockStream(-640, FP.PLATFORM_CENTER, 640, 20, FP.BLOCK_SIZE, 100)
+		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 320, FP.BLOCK_SIZE, 100)
 			.mount(this.gameScene)
 			;
 			

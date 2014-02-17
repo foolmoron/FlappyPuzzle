@@ -1,16 +1,18 @@
 var BlockStream = IgeEntity.extend({
 	classId: 'BlockStream',
 	
-	init: function(leftEdge, center, rightEdge, numBlocks, blockSize, moveInterval) {
+	init: function(leftEdge, center, rightEdge, blockSize, moveInterval) {
 		IgeEntity.prototype.init.call(this);
 		
 		this._leftEdge = leftEdge;
 		this._center = center;
 		this._rightEdge = rightEdge;
-		this._numBlocks = numBlocks;
 		this._blockSize = blockSize;
 		this._moveInterval = moveInterval;
 		this._moveTimer = 0;
+		
+		var numBlocks = Math.floor((rightEdge - leftEdge) / blockSize);
+		this._numBlocks = numBlocks;
 		
 		this.texture(FP.tex['whiteblock'])
 			.bounds2d(rightEdge - leftEdge, blockSize * 2)
