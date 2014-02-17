@@ -89,14 +89,18 @@ var Client = IgeClass.extend({
 			;
 			
 		var click = function() {
-			var clearedBlocks = self.stream.clearCenterBlocks();
-			if (clearedBlocks) {
-				self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
-				if (self.platform.rowCount() === 3) {
-					var linePoints = self.platform.evaluateLines();
-					self.platform.setPointsText(linePoints);
-				} else {
-					self.platform.setPointsText(null);
+			if (self.platform.rowCount() >= 3) {
+				self.platform.clearRows();
+			} else {
+				var clearedBlocks = self.stream.clearCenterBlocks();
+				if (clearedBlocks) {
+					self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
+					if (self.platform.rowCount() === 3) {
+						var linePoints = self.platform.evaluateLines();
+						self.platform.setPointsText(linePoints);
+					} else {
+						self.platform.setPointsText(null);
+					}
 				}
 			}
 			ige.input.stopPropagation();

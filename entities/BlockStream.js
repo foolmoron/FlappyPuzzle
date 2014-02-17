@@ -56,11 +56,13 @@ var BlockStream = IgeEntity.extend({
 				var block = this._blocks[i];
 				if (block._translate.x <= this._leftEdge) {
 					block.destroy();
-					block = this._blocks[i] = new Block("random")
+					var nextBlockType = (this._nextBlockRainbow)? Block.COLOR.RAINBOW : "random";
+					block = this._blocks[i] = new Block(nextBlockType)
 						.translateTo(this._rightEdge, 0, 0)
 						.mount(this)
 						.depth(10)
 						; 
+					this._nextBlockRainbow = false;
 				}
 				block.translateBy(-this._blockSize, 0, 0);
 			}
@@ -83,6 +85,8 @@ var BlockStream = IgeEntity.extend({
 			for (var i = 0; i < clearedBlocks.length; i++) {
 				clearedBlocks[i].hidden(true);
 			}
+			this._nextBlockRainbow = true;
+			
 			return clearedBlocks;
 		}
 	},

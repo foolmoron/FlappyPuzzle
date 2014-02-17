@@ -94,6 +94,7 @@ var Platform = IgeEntity.extend({
 			}
 		}
 		this._rows = [];
+		this.setPointsText(null);
 		return this;
 	},
 	
@@ -112,7 +113,11 @@ var Platform = IgeEntity.extend({
 			var block1 = this._rows[line[0][0]][line[0][1]];
 			var block2 = this._rows[line[1][0]][line[1][1]];
 			var block3 = this._rows[line[2][0]][line[2][1]];
-			if (block1.type() === block2.type() && block1.type() === block3.type()) {
+			
+			var failed1and2 = (block1.type() !== block2.type()) && block1.type() !== Block.COLOR.RAINBOW && block2.type() !== Block.COLOR.RAINBOW;
+			var failed2and3 = (block2.type() !== block3.type()) && block2.type() !== Block.COLOR.RAINBOW && block3.type() !== Block.COLOR.RAINBOW;
+			var failed1and3 = (block1.type() !== block3.type()) && block1.type() !== Block.COLOR.RAINBOW && block3.type() !== Block.COLOR.RAINBOW;
+			if (!failed1and2 && !failed2and3 && !failed1and3) {
 				linePoints[i] = true;
 			}
 		}

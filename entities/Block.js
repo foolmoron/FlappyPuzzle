@@ -4,11 +4,6 @@ var Block = IgeEntity.extend({
 	init: function(type) {
 		IgeEntity.prototype.init.call(this);
 		
-		if (type === "random") {
-			var colorKeys = Object.keys(Block.COLOR);
-			var randomKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
-			type = Block.COLOR[randomKey];
-		}
 		this.type(type);
 		this.hidden(false);
 		
@@ -41,6 +36,13 @@ var Block = IgeEntity.extend({
 	type: function(type) {
 		if (type == undefined)
 			return this._type;
+			
+		if (type === "random") {
+			var colorKeys = Object.keys(Block.COLOR);
+			colorKeys.splice(colorKeys.indexOf("RAINBOW"), 1);
+			var randomKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
+			type = Block.COLOR[randomKey];
+		}
 		
 		this._type = type;
 		this._isRainbow = false;
