@@ -1,15 +1,14 @@
 var BlockStream = IgeEntity.extend({
 	classId: 'BlockStream',
 	
-	init: function(leftEdge, center, rightEdge, blockSize, moveInterval) {
+	init: function(leftEdge, center, rightEdge, blockSize, velocityX) {
 		IgeEntity.prototype.init.call(this);
 		
 		this._leftEdge = leftEdge;
 		this._center = center;
 		this._rightEdge = rightEdge;
 		this._blockSize = blockSize;
-		this._moveInterval = moveInterval;
-		this._moveTimer = 0;
+		this._velocityX = velocityX;
 		
 		var numBlocks = Math.floor((rightEdge - leftEdge) / blockSize);
 		this._numBlocks = numBlocks;
@@ -50,23 +49,19 @@ var BlockStream = IgeEntity.extend({
 	
 	_update: function() {
 		var dt = ige._tickDelta;
-		this._moveTimer += dt;
-		if (this._moveTimer >= this._moveInterval) {
-			for (var i = 0; i < this._blocks.length; i++) {
-				var block = this._blocks[i];
-				if (block._translate.x <= this._leftEdge) {
-					block.destroy();
-					var nextBlockType = (this._nextBlockRainbow)? Block.COLOR.RAINBOW : "random";
-					block = this._blocks[i] = new Block(nextBlockType)
-						.translateTo(this._rightEdge, 0, 0)
-						.mount(this)
-						.depth(10)
-						; 
-					this._nextBlockRainbow = false;
-				}
-				block.translateBy(-this._blockSize, 0, 0);
+		for (var i = 0; i < this._blocks.length; i++) {
+			var block = this._blocks[i];
+			if (block._translate.x <= this._leftEdge) {
+				block.destroy();
+				var nextBlockType = (this._nextBlockRainbow)? Block.COLOR.RAINBOW : "random";
+				block = this._blocks[i] = new Block(nextBlockType)
+					.translateTo(this._rightEdge - (this._leftEdge - block._translate.x), 0, 0)
+					.mount(this)
+					.depth(10)
+					; 
+				this._nextBlockRainbow = false;
 			}
-			this._moveTimer = 0;
+			block.translateBy(this._velocityX * dt, 0, 0);
 		}
 	},
 	
@@ -75,7 +70,7 @@ var BlockStream = IgeEntity.extend({
 		for (var i = 0; i < this._blocks.length; i++) {
 			for (var i = 0; i < this._blocks.length; i++) {
 				var block = this._blocks[i];
-				if (!block.hidden() && block._translate.x <= (this._center + this._blockSize) && block._translate.x >= (this._center - this._blockSize)) {
+				if (!block.hidden() && block._translate.x <= (this._center + (this._blockSize * 1.5)) && block._translate.x >= (this._center - (this._blockSize * 1.5))) {
 					clearedBlocks.push(block);
 				}
 			}
