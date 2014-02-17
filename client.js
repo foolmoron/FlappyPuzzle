@@ -89,8 +89,22 @@ var Client = IgeClass.extend({
 			.dimensionsFromCell()
 			.mount(this.fgScene)
 			;
-		
-		this.platform = new Platform(FP.BLOCK_SIZE)
+			
+		this.successMessage = new IgeEntity()
+			.texture(FP.tex['puzzlesuccess'])
+			.dimensionsFromCell()
+			.opacity(0)
+			.translateTo(-88, -15, 0)
+			.mount(this.gameScene)
+			;
+		this.failMessage = new IgeEntity()
+			.texture(FP.tex['puzzlefail'])
+			.dimensionsFromCell()
+			.opacity(0)
+			.translateTo(-88, -15, 0)
+			.mount(this.gameScene)
+			;
+		this.platform = new Platform(FP.BLOCK_SIZE, this.successMessage, this.failMessage)
 			.translateTo(FP.PLATFORM_CENTER, 125, 0)
 			.mount(this.gameScene)
 			;
@@ -100,6 +114,8 @@ var Client = IgeClass.extend({
 			;
 			
 		var click = function() {
+			self.successMessage.opacity(0);
+			self.failMessage.opacity(0);
 			if (self.platform.rowCount() >= 3) {
 				self.platform.clearRows();
 			} else {
@@ -108,7 +124,14 @@ var Client = IgeClass.extend({
 					self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
 					if (self.platform.rowCount() === 3) {
 						var linePoints = self.platform.evaluateLines();
+						var totalPoints = linePoints.reduce(function(acc, val) { return acc + val; }, 0);
+						
 						self.platform.setPointsText(linePoints);
+						if (totalPoints > 0) {
+							self.successMessage.opacity(1);
+						} else {
+							self.failMessage.opacity(1);
+						}
 					} else {
 						self.platform.setPointsText(null);
 					}

@@ -8,6 +8,8 @@ Client.prototype.load = function () {
 		"bg.png",
 		"fg.png",
 		"platform.png",
+		"puzzlesuccess.png",
+		"puzzlefail.png",
 	];	
 	var CELLSHEET_DESCRIPTIONS = [ // [ cellsheet filename, number of columns, number of rows ]
 		["rainbowblock.png", 4, 1],
