@@ -14,35 +14,34 @@ var BlockStream = IgeEntity.extend({
 		this._numBlocks = numBlocks;
 		this._blocksSinceRainbow = numBlocks;
 		
-		this.texture(FP.tex['whiteblock'])
-			.bounds2d(rightEdge - leftEdge, blockSize * 2)
+		this.bounds2d(rightEdge - leftEdge, blockSize * 2)
 			.addBehaviour("update", this._update)
+			//.texture(FP.tex['whiteblock'])
 			;
 		this.left = new IgeEntity()
 			.texture(FP.tex['whiteblock'])
 			.dimensionsFromCell()
 			.translateTo(leftEdge, 0, 0)
-			.mount(this)
+			//.mount(this)
 			;
-		this.left = new IgeEntity()
+		this.center = new IgeEntity()
 			.texture(FP.tex['whiteblock'])
 			.dimensionsFromCell()
 			.translateTo(center, 0, 0)
 			.scaleTo(3, 3, 1)
-			.mount(this)
+			//.mount(this)
 			;
 		this.right = new IgeEntity()
 			.texture(FP.tex['whiteblock'])
 			.dimensionsFromCell()
 			.translateTo(rightEdge, 0, 0)
-			.mount(this)
+			//.mount(this)
 			;
 			
 		this._blocks = [];
 		for (var i = 0; i < numBlocks; i++) {			
 			this._blocks[i] = new Block("random")
 				.translateTo(rightEdge + (i * blockSize), 0, 0)
-				.mount(this)
 				.depth(10)
 				;
 		}
@@ -70,6 +69,8 @@ var BlockStream = IgeEntity.extend({
 				this._blocksSinceRainbow++;
 			}
 			block.translateBy(this._velocityX * dt, 0, 0);
+			if (block._translate.x <= this._rightEdge)
+				block.mount(this);
 		}
 	},
 	

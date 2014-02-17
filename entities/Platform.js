@@ -57,10 +57,9 @@ var Platform = IgeEntity.extend({
 		}
 		
 		this.bg = new IgeEntity()
-			.texture(FP.tex['whiteblock'])
+			.texture(FP.tex['platform'])
 			.dimensionsFromCell()
-			.translateTo(0, blockSize, 0)
-			.scaleTo(3, 1, 1)
+			.translateTo(0, 48, 0)
 			.mount(this)
 			;			
 	},

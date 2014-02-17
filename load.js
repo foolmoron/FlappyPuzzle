@@ -5,6 +5,9 @@ Client.prototype.load = function () {
 		"yellowblock.png",
 		"greenblock.png",
 		"whiteblock.png",
+		"bg.png",
+		"fg.png",
+		"platform.png",
 	];	
 	var CELLSHEET_DESCRIPTIONS = [ // [ cellsheet filename, number of columns, number of rows ]
 		["rainbowblock.png", 4, 1],

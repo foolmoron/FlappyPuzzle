@@ -31,9 +31,6 @@ var Client = IgeClass.extend({
 					
 					// Create the basic scene, viewport etc
 					self.setupScene();
-					
-					// Create the UI entities
-					self.setupUi();
 		
 					// Setup the initial entities
 					self.setupEntities();
@@ -59,32 +56,46 @@ var Client = IgeClass.extend({
 			//.drawCompositeBounds(true)
 			.mount(ige)
 			;		
-		this.gameScene = new IgeScene2d()
-			.id('gameScene')
+		this.bgScene = new IgeScene2d()
+			.id('bgScene')
 			.layer(1)
 			.translateTo(0, 0, 0)
 			.mount(this.mainScene)
 			;
-		this.uiScene = new IgeScene2d()
-			.id('uiScene')
-			.layer(4)
-			.ignoreCamera(true)
-			.mount(this.gameScene)
+		this.gameScene = new IgeScene2d()
+			.id('gameScene')
+			.layer(2)
+			.translateTo(0, 0, 0)
+			.mount(this.mainScene)
 			;
-	},
-	
-	setupUi: function() {
-		
+		this.fgScene = new IgeScene2d()
+			.id('fgScene')
+			.layer(3)
+			.translateTo(0, 0, 0)
+			.mount(this.mainScene)
+			;
 	},
 	
 	setupEntities: function() {
 		var self = this;
 		
+		this.bg = new IgeEntity()
+			.texture(FP.tex['bg'])
+			.dimensionsFromCell()
+			.mount(this.bgScene)
+			;
+		this.fg = new IgeEntity()
+			.texture(FP.tex['fg'])
+			.dimensionsFromCell()
+			.mount(this.fgScene)
+			;
+		
 		this.platform = new Platform(FP.BLOCK_SIZE)
-			.translateTo(FP.PLATFORM_CENTER, 175, 0)
+			.translateTo(FP.PLATFORM_CENTER, 125, 0)
 			.mount(this.gameScene)
 			;
-		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 320, FP.BLOCK_SIZE, -0.40)
+		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 352, FP.BLOCK_SIZE, -0.40)
+			.translateTo(0, -73, 0)
 			.mount(this.gameScene)
 			;
 			
