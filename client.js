@@ -6,6 +6,7 @@ FP.AUDIO_DIRECTORY = "./audio/";
 
 FP.BLOCK_SIZE = 32;
 FP.PLATFORM_CENTER = -128;
+FP.HIGHSCORE_COLOR = '#cace50';
 
 FP.tex = {}; // holds all textures
 
@@ -117,6 +118,10 @@ var Client = IgeClass.extend({
 			.mount(this.gameScene)
 			;
 		
+		this.currentLevel = 0;
+		this.currentScore = 0;
+		this.levelHigh = localStorage.getItem('levelHigh') || 0;
+		this.scoreHigh = localStorage.getItem('scoreHigh') || 0;
 		this.levelText = new IgeFontEntity()
 			.nativeFont('32pt monospace')
 			.colorOverlay('#ffffff')
@@ -129,11 +134,11 @@ var Client = IgeClass.extend({
 			;
 		this.levelHighText = new IgeFontEntity()
 			.nativeFont('32pt monospace')
-			.colorOverlay('#cace50')
+			.colorOverlay(FP.HIGHSCORE_COLOR)
 			.textAlignX(1)
 			.width(200)
 			.translateTo(257, 68, 0)
-			.text("00000")
+			.text(this.padScoreText(this.levelHigh))
 			.depth(10)
 			.mount(this.fgScene)
 			;
@@ -149,11 +154,11 @@ var Client = IgeClass.extend({
 			;
 		this.scoreHighText = new IgeFontEntity()
 			.nativeFont('32pt monospace')
-			.colorOverlay('#cace50')
+			.colorOverlay(FP.HIGHSCORE_COLOR)
 			.textAlignX(1)
 			.width(200)
 			.translateTo(257, 206, 0)
-			.text("00000")
+			.text(this.padScoreText(this.scoreHigh))
 			.depth(10)
 			.mount(this.fgScene)
 			;
@@ -167,6 +172,20 @@ var Client = IgeClass.extend({
 			self.failMessage.opacity(0);
 			if (self.platform.rowCount() >= 3) {
 				self.platform.clearRows();
+				
+				if (self.failed) {					
+					//reset current scores
+					self.currentLevel = 0;
+					self.currentScore = 0;
+					self.levelText
+						.text(self.padScoreText(self.currentLevel))
+						.colorOverlay('#ffffff')
+						;
+					self.scoreText
+						.text(self.padScoreText(self.currentScore))
+						.colorOverlay('#ffffff')
+						;
+				}
 			} else {
 				var clearedBlocks = self.stream.clearCenterBlocks();
 				if (clearedBlocks) {
@@ -178,8 +197,32 @@ var Client = IgeClass.extend({
 						self.platform.setPointsText(linePoints);
 						if (totalPoints > 0) {
 							self.successMessage.opacity(1);
+							self.failed = false;
+							
+							//add to scores
+							self.currentLevel += 1;
+							self.currentScore += totalPoints;	
+							self.levelText.text(self.padScoreText(self.currentLevel));
+							if (self.currentLevel >= self.levelHigh)
+								self.levelText.colorOverlay(FP.HIGHSCORE_COLOR);
+							self.scoreText.text(self.padScoreText(self.currentScore));
+							if (self.currentScore >= self.scoreHigh)
+								self.scoreText.colorOverlay(FP.HIGHSCORE_COLOR);
 						} else {
 							self.failMessage.opacity(1);
+							self.failed = true;			
+							
+							//save highscores
+							if (self.currentLevel > self.levelHigh) {
+								self.levelHigh = self.currentLevel;
+								localStorage.setItem('levelHigh', self.levelHigh);
+								self.levelHighText.text(self.padScoreText(self.levelHigh));
+							}
+							if (self.currentScore > self.scoreHigh) {
+								self.scoreHigh = self.currentScore;
+								localStorage.setItem('scoreHigh', self.scoreHigh);
+								self.scoreHighText.text(self.padScoreText(self.scoreHigh));
+							}
 						}
 					} else {
 						self.platform.setPointsText(null);
@@ -206,6 +249,19 @@ var Client = IgeClass.extend({
 			this.vpMain.scaleTo(1, 1, 1);
 		}
 	},
+	
+	padScoreText: function(val) {
+		var length = 5;
+		var padChar = '0';
+		
+		var string = String(val);
+		if (string.length >= length)
+			return string;
+		
+		var pad = Array(length - string.length + 1).join(padChar); // http://stackoverflow.com/a/1877479/2089233
+		string = pad + string;
+		return string;
+	}
 });
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = Client; }
