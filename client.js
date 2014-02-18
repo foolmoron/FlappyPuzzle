@@ -189,6 +189,8 @@ var Client = IgeClass.extend({
 			} else {
 				var clearedBlocks = self.stream.clearCenterBlocks();
 				if (clearedBlocks) {
+					FP.sfx.play('flap');
+					
 					self.platform.addRow(clearedBlocks[0]._type, clearedBlocks[1]._type, clearedBlocks[2]._type);
 					if (self.platform.rowCount() === 3) {
 						var linePoints = self.platform.evaluateLines();
@@ -196,6 +198,8 @@ var Client = IgeClass.extend({
 						
 						self.platform.setPointsText(linePoints);
 						if (totalPoints > 0) {
+							FP.sfx.play('good');	
+							
 							self.successMessage.opacity(1);
 							self.failed = false;
 							
@@ -209,8 +213,10 @@ var Client = IgeClass.extend({
 							if (self.currentScore >= self.scoreHigh)
 								self.scoreText.colorOverlay(FP.HIGHSCORE_COLOR);
 						} else {
+							FP.sfx.play('fail');	
+							
 							self.failMessage.opacity(1);
-							self.failed = true;			
+							self.failed = true;		
 							
 							//save highscores
 							if (self.currentLevel > self.levelHigh) {
