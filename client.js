@@ -113,7 +113,11 @@ var Client = IgeClass.extend({
 			.mount(this.gameScene)
 			;
 			
-		var click = function() {
+		var canvas = document.getElementById('igeFrontBuffer');
+		var click = function(evt) {
+			if (evt.target !== canvas)
+				return;
+		
 			self.successMessage.opacity(0);
 			self.failMessage.opacity(0);
 			if (self.platform.rowCount() >= 3) {
