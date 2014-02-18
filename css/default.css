@@ -275,6 +275,15 @@ body {
 	user-select: none;
 }
 
+.footer > h3 {
+	font-size: 120%;
+}
+@media (max-width: 767px) {
+	.footer > h3 {
+		font-size: 80%;
+	}
+}
+
 a:link {color:#33CCFF;}      /* unvisited link */
 a:visited {color:#33CCFF;}  /* visited link */
 a:hover {color:#33CCFF;}  /* mouse over link */
