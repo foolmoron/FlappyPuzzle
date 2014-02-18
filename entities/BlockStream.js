@@ -83,8 +83,8 @@ var BlockStream = IgeEntity.extend({
 			var block = this._blocks[i];
 			if (!block.hidden() && block._translate.x >= (targetPosition - targetRadius) && block._translate.x <= (targetPosition + targetRadius)) {
 				//found valid block at end of center area, check if next 2 blocks are valid
-				var block2 = this._blocks[i + 1];
-				var block3 = this._blocks[i + 2];
+				var block2 = this._blocks[(i + 1) % this._blocks.length];
+				var block3 = this._blocks[(i + 2) % this._blocks.length];
 				if ((block2 && !block2.hidden()) && (block3 && !block3.hidden())) {
 					//3 blocks at end of center area are valid, pick them
 					clearedBlocks.push(block);
