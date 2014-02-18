@@ -60,6 +60,9 @@ var Block = IgeEntity.extend({
 		case Block.COLOR.YELLOW:
 			this.texture(FP.tex['yellowblock']);
 			break;
+		case Block.COLOR.ORANGE:
+			this.texture(FP.tex['orangeblock']);
+			break;
 		case Block.COLOR.RAINBOW:
 			this.texture(FP.tex['rainbowblock']);
 			this._isRainbow = true;
@@ -81,6 +84,6 @@ var Block = IgeEntity.extend({
 		return this;
 	},
 });
-Block.COLOR = { RED: 'red', BLUE: 'blue', GREEN: 'green', YELLOW: 'yellow', RAINBOW: 'rainbow' };
+Block.COLOR = { RED: 'red', BLUE: 'blue', GREEN: 'green', YELLOW: 'yellow', ORANGE: 'orange', RAINBOW: 'rainbow' };
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = Block; }

@@ -4,6 +4,7 @@ Client.prototype.load = function () {
 		"blueblock.png",
 		"yellowblock.png",
 		"greenblock.png",
+		"orangeblock.png",
 		"whiteblock.png",
 		"bg.png",
 		"fg.png",
