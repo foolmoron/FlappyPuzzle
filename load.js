@@ -19,6 +19,8 @@ Client.prototype.load = function () {
 		"line5.png",
 		"line6.png",
 		"line7.png",
+		"soundon.png",
+		"soundoff.png",
 	];	
 	var CELLSHEET_DESCRIPTIONS = [ // [ cellsheet filename, number of columns, number of rows ]
 		["rainbowblock.png", 4, 1],

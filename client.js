@@ -163,6 +163,25 @@ var Client = IgeClass.extend({
 			.depth(10)
 			.mount(this.fgScene)
 			;
+		
+		this.volumeToggle = new IgeEntity()
+			.texture(FP.tex['soundon'])
+			.dimensionsFromCell()
+			.mouseDown(function() {
+				var muted = Howler._muted;
+				if (muted) {
+					Howler.unmute();
+					this.texture(FP.tex['soundon']);
+				} else {
+					Howler.mute();
+					this.texture(FP.tex['soundoff']);
+				}
+				ige.input.stopPropagation();
+			})
+			.translateTo(300, -210, 0)
+			.depth(10)
+			.mount(this.fgScene)
+			;
 			
 		var canvas = document.getElementById('igeFrontBuffer');
 		var click = function(evt) {
@@ -238,8 +257,7 @@ var Client = IgeClass.extend({
 			}
 			ige.input.stopPropagation();
 		}
-		window.addEventListener('mousedown', click);
-		window.addEventListener('touchstart', click);	
+		this.gameScene.mouseDown(click);
 	},
 	
 	_resizeEvent: function() {
