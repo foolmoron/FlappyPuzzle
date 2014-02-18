@@ -29,10 +29,7 @@ var Client = IgeClass.extend({
 				if (success) {
 					ige.viewportDepth(true);
 					
-					// Create the basic scene, viewport etc
 					self.setupScene();
-		
-					// Setup the initial entities
 					self.setupEntities();
 				}
 			});
@@ -118,6 +115,47 @@ var Client = IgeClass.extend({
 		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 352, FP.BLOCK_SIZE, -0.50)
 			.translateTo(0, -73, 0)
 			.mount(this.gameScene)
+			;
+		
+		this.levelText = new IgeFontEntity()
+			.nativeFont('32pt monospace')
+			.colorOverlay('#ffffff')
+			.textAlignX(1)
+			.width(200)
+			.translateTo(257, 16, 0)
+			.text("00000")
+			.depth(10)
+			.mount(this.fgScene)
+			;
+		this.levelHighText = new IgeFontEntity()
+			.nativeFont('32pt monospace')
+			.colorOverlay('#cace50')
+			.textAlignX(1)
+			.width(200)
+			.translateTo(257, 68, 0)
+			.text("00000")
+			.depth(10)
+			.mount(this.fgScene)
+			;
+		this.scoreText = new IgeFontEntity()
+			.nativeFont('32pt monospace')
+			.colorOverlay('#ffffff')
+			.textAlignX(1)
+			.width(200)
+			.translateTo(257, 154, 0)
+			.text("00000")
+			.depth(10)
+			.mount(this.fgScene)
+			;
+		this.scoreHighText = new IgeFontEntity()
+			.nativeFont('32pt monospace')
+			.colorOverlay('#cace50')
+			.textAlignX(1)
+			.width(200)
+			.translateTo(257, 206, 0)
+			.text("00000")
+			.depth(10)
+			.mount(this.fgScene)
 			;
 			
 		var canvas = document.getElementById('igeFrontBuffer');
