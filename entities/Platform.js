@@ -42,26 +42,36 @@ var Platform = IgeEntity.extend({
 		this._blockSize = blockSize;
 		this._rows = [];
 		
-		this.linePointTexts = [];
+		this._linePointTexts = [];
 		for (var i = 0; i < this.LINE_POINT_TEXT_OFFSETS.length; i++) {
 			var offset = this.LINE_POINT_TEXT_OFFSETS[i];
 			var text = new IgeFontEntity()
-				.id('text' + i)
 				.nativeFont(this.LINE_POINT_FONT)
 				.colorOverlay(this.LINE_POINT_COLOR_SUCCESS)
 				.text("")
 				.translateTo(offset[0] * this._blockSize, offset[1] * this._blockSize, 0)
 				.mount(this)
 				;
-			this.linePointTexts.push(text);
+			this._linePointTexts.push(text);
 		}
 		
-		this.bg = new IgeEntity()
+		this._bg = new IgeEntity()
 			.texture(FP.tex['platform'])
 			.dimensionsFromCell()
 			.translateTo(0, 48, 0)
 			.mount(this)
 			;			
+		
+		this._lineArrows = [];
+		for (var i = 0; i < this.LINES.length; i++) {
+			var lineArrow = new IgeEntity()
+				.texture(FP.tex['line' + i])
+				.dimensionsFromCell()
+				.translateTo(0, -30, 0)
+				.depth(10)
+				;
+			this._lineArrows.push(lineArrow);
+		}		
 	},
 	
 	addRow: function(blockType1, blockType2, blockType3) {
@@ -91,6 +101,9 @@ var Platform = IgeEntity.extend({
 			for (var j = 0; j < row.length; j++) {
 				row[j].destroy();
 			}
+		}
+		for (var i = 0; i < this._lineArrows.length; i++) {
+			this._lineArrows[i].unMount();
 		}
 		this._rows = [];
 		this.setPointsText(null);
@@ -125,8 +138,8 @@ var Platform = IgeEntity.extend({
 	
 	setPointsText: function(linePoints) {
 		if (!linePoints) {
-			for (var i = 0; i < this.linePointTexts.length; i++) {
-				this.linePointTexts[i].text("");
+			for (var i = 0; i < this._linePointTexts.length; i++) {
+				this._linePointTexts[i].text("");
 			}
 			return this;
 		}
@@ -136,9 +149,14 @@ var Platform = IgeEntity.extend({
 		for (var i = 0; i < lineTexts.length; i++) {
 			var text = lineTexts[i];
 			var color = (linePoints[i]) ? this.LINE_POINT_COLOR_SUCCESS : this.LINE_POINT_COLOR_FAIL;
-			this.linePointTexts[i].text(text)
+			this._linePointTexts[i].text(text)
 				.colorOverlay(color)
 				;
+				
+			if (linePoints[i])
+				this._lineArrows[i].mount(this);
+			else
+				this._lineArrows[i].unMount();
 		}
 		return this;
 	}

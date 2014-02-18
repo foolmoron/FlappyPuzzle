@@ -232,7 +232,7 @@ var Client = IgeClass.extend({
 			ige.input.stopPropagation();
 		}
 		window.addEventListener('mousedown', click);
-		window.addEventListener('touchstart', click);
+		window.addEventListener('touchstart', click);	
 	},
 	
 	_resizeEvent: function() {
