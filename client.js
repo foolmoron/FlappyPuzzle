@@ -4,6 +4,7 @@ FP = window.FP || {};
 FP.SPRITE_DIRECTORY = "./sprites/";
 FP.AUDIO_DIRECTORY = "./audio/";
 
+FP.SPEED = -0.75;
 FP.BLOCK_SIZE = 32;
 FP.PLATFORM_CENTER = -128;
 FP.HIGHSCORE_COLOR = '#cace50';
@@ -113,7 +114,7 @@ var Client = IgeClass.extend({
 			.translateTo(FP.PLATFORM_CENTER, 125, 0)
 			.mount(this.gameScene)
 			;
-		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 352, FP.BLOCK_SIZE, -0.50)
+		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 352, FP.BLOCK_SIZE, FP.SPEED)
 			.translateTo(0, -73, 0)
 			.mount(this.gameScene)
 			;
