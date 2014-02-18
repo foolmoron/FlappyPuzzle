@@ -55,7 +55,7 @@ var Client = IgeClass.extend({
 			.drawBoundsData(false)
 			//.drawCompositeBounds(true)
 			.mount(ige)
-			;		
+			;
 		this.bgScene = new IgeScene2d()
 			.id('bgScene')
 			.layer(1)
@@ -74,6 +74,13 @@ var Client = IgeClass.extend({
 			.translateTo(0, 0, 0)
 			.mount(this.mainScene)
 			;
+			
+		this.vpMain._oldResizeEvent = this.vpMain._resizeEvent;
+		this.vpMain._resizeEvent = function(event) { // transplant additional code into existing resize handler
+			self.vpMain._oldResizeEvent.call(self.vpMain, event);
+			self._resizeEvent.call(self);
+		}
+		this.vpMain._resizeEvent();
 	},
 	
 	setupEntities: function() {
@@ -145,6 +152,21 @@ var Client = IgeClass.extend({
 		}
 		window.addEventListener('mousedown', click);
 		window.addEventListener('touchstart', click);
+	},
+	
+	_resizeEvent: function() {
+		if (this.vpMain.resizing)
+			return;
+		
+		var windowWidth = window.innerWidth || document.documentElement.clientWidth || d.getElementsByTagName('body')[0].clientWidth;
+		if (windowWidth <= 740) {
+			this.vpMain.resizing = true;
+			this.vpMain.minimumVisibleArea(740, 700);
+			this.vpMain.resizing = false;
+		} else {
+			delete this.vpMain._lockDimension;
+			this.vpMain.scaleTo(1, 1, 1);
+		}
 	},
 });
 
