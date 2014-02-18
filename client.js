@@ -115,7 +115,7 @@ var Client = IgeClass.extend({
 			.translateTo(FP.PLATFORM_CENTER, 125, 0)
 			.mount(this.gameScene)
 			;
-		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 352, FP.BLOCK_SIZE, -0.40)
+		this.stream = new BlockStream(-320, FP.PLATFORM_CENTER, 352, FP.BLOCK_SIZE, -0.50)
 			.translateTo(0, -73, 0)
 			.mount(this.gameScene)
 			;
