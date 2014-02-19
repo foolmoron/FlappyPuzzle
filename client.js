@@ -8,7 +8,7 @@ FP.SPEED = -0.75;
 FP.BLOCK_SIZE = 32;
 FP.PLATFORM_CENTER = -128;
 FP.HIGHSCORE_COLOR = '#cace50';
-FP.MAX_BLOCK_STREAK = 2; // most same-color blocks that can show up in a row
+FP.MAX_BLOCK_STREAK = 3; // most same-color blocks that can show up in a row
 
 FP.tex = {}; // holds all textures
 
