@@ -13,6 +13,7 @@ var BlockStream = IgeEntity.extend({
 		var numBlocks = Math.floor((rightEdge - leftEdge) / blockSize);
 		this._numBlocks = numBlocks;
 		this._blocksSinceRainbow = numBlocks;
+		this._blockStreak = {type: "", count: 0};
 		
 		this.bounds2d(rightEdge - leftEdge, blockSize * 2)
 			.addBehaviour("update", this._update)
@@ -66,6 +67,19 @@ var BlockStream = IgeEntity.extend({
 					.mount(this)
 					.depth(10)
 					;
+
+				if (this._blockStreak.type === block.type()) {
+					this._blockStreak.count++;
+
+					if (this._blockStreak.count > FP.MAX_BLOCK_STREAK) {
+						block.type("random", {without: this._blockStreak.type});
+					}
+				}
+				if (this._blockStreak.type !== block.type()) {
+					this._blockStreak.type = block.type();
+					this._blockStreak.count = 1;
+				}
+
 				this._blocksSinceRainbow++;
 			}
 			block.translateBy(this._velocityX * dt, 0, 0);

@@ -33,13 +33,17 @@ var Block = IgeEntity.extend({
 		}
 	},
 	
-	type: function(type) {
+	type: function(type, options) {
 		if (type == undefined)
 			return this._type;
 			
+		options = options || {};
 		if (type === "random") {
 			var colorKeys = Object.keys(Block.COLOR);
 			colorKeys.splice(colorKeys.indexOf("RAINBOW"), 1);
+			if (options.without) {
+				colorKeys = colorKeys.filter(function(key) { if (Block.COLOR[key] !== options.without) return true; })			
+			}
 			var randomKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
 			type = Block.COLOR[randomKey];
 		}
