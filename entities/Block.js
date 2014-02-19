@@ -22,7 +22,7 @@ var Block = IgeEntity.extend({
 			
 		this._rainbowTimer += ige._tickDelta;
 		if (this._rainbowTimer >= this.RAINBOW_INTERVAL) {				
-			var numCells = this.texture()._cells[1].length;
+			var numCells = this.texture()._cellColumns;
 			
 			if (Math.random() > 0.5) // mix things up a bit
 				this._rainbowCell++;

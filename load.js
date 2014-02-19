@@ -23,7 +23,7 @@ Client.prototype.load = function () {
 		"soundoff.png",
 	];	
 	var CELLSHEET_DESCRIPTIONS = [ // [ cellsheet filename, number of columns, number of rows ]
-		["rainbowblock.png", 4, 1],
+		["rainbowblock.png", 5, 1],
 	];
 	
 	SPRITE_DESCRIPTIONS.forEach(function(description) {
