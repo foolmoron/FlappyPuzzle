@@ -53,7 +53,6 @@ var Block = IgeEntity.extend({
 		switch (type) {
 		case Block.COLOR.RED:
 			this.texture(FP.tex['redblock']);
-			this._
 			break;
 		case Block.COLOR.BLUE:
 			this.texture(FP.tex['blueblock']);
