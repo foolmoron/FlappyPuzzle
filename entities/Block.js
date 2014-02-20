@@ -12,7 +12,7 @@ var Block = IgeEntity.extend({
 		this.RAINBOW_INTERVAL = 50; //s
 		
 		this.dimensionsFromCell()
-			.addBehaviour('animateRainbow', this._animateRainbow);
+			.addBehaviour('animateRainbow', this._animateRainbow)
 			;
 	},
 	
