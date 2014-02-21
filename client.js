@@ -2,6 +2,7 @@
 FP = window.FP || {};
 
 FP.SPRITE_DIRECTORY = "./sprites/";
+FP.FONTSHEET_DIRECTORY = "./font/";
 FP.AUDIO_DIRECTORY = "./audio/";
 
 FP.SPEED = -0.75;
@@ -11,6 +12,7 @@ FP.HIGHSCORE_COLOR = '#cace50';
 FP.MAX_BLOCK_STREAK = 3; // most same-color blocks that can show up in a row
 
 FP.tex = {}; // holds all textures
+FP.font = {}; // hold all fontsheets
 
 var Client = IgeClass.extend({
 	classId: 'Client',
@@ -125,41 +127,37 @@ var Client = IgeClass.extend({
 		this.levelHigh = localStorage.getItem('levelHigh') || 0;
 		this.scoreHigh = localStorage.getItem('scoreHigh') || 0;
 		this.levelText = new IgeFontEntity()
-			.nativeFont('32pt monospace')
-			.colorOverlay('#ffffff')
+			.texture(FP.font['whitenumbers'])
 			.textAlignX(1)
 			.width(200)
-			.translateTo(257, 16, 0)
+			.translateTo(258, 15, 0)
 			.text("00000")
 			.depth(10)
 			.mount(this.fgScene)
 			;
 		this.levelHighText = new IgeFontEntity()
-			.nativeFont('32pt monospace')
-			.colorOverlay(FP.HIGHSCORE_COLOR)
+			.texture(FP.font['goldnumbers'])
 			.textAlignX(1)
 			.width(200)
-			.translateTo(257, 68, 0)
+			.translateTo(258, 66, 0)
 			.text(this.padScoreText(this.levelHigh))
 			.depth(10)
 			.mount(this.fgScene)
 			;
 		this.scoreText = new IgeFontEntity()
-			.nativeFont('32pt monospace')
-			.colorOverlay('#ffffff')
+			.texture(FP.font['whitenumbers'])
 			.textAlignX(1)
 			.width(200)
-			.translateTo(257, 154, 0)
+			.translateTo(258, 153, 0)
 			.text("00000")
 			.depth(10)
 			.mount(this.fgScene)
 			;
 		this.scoreHighText = new IgeFontEntity()
-			.nativeFont('32pt monospace')
-			.colorOverlay(FP.HIGHSCORE_COLOR)
+			.texture(FP.font['goldnumbers'])
 			.textAlignX(1)
 			.width(200)
-			.translateTo(257, 206, 0)
+			.translateTo(258, 204, 0)
 			.text(this.padScoreText(this.scoreHigh))
 			.depth(10)
 			.mount(this.fgScene)
@@ -200,11 +198,11 @@ var Client = IgeClass.extend({
 					self.currentScore = 0;
 					self.levelText
 						.text(self.padScoreText(self.currentLevel))
-						.colorOverlay('#ffffff')
+						.texture(FP.font['whitenumbers'])
 						;
 					self.scoreText
 						.text(self.padScoreText(self.currentScore))
-						.colorOverlay('#ffffff')
+						.texture(FP.font['whitenumbers'])
 						;
 				}
 			} else {
@@ -229,10 +227,10 @@ var Client = IgeClass.extend({
 							self.currentScore += totalPoints;	
 							self.levelText.text(self.padScoreText(self.currentLevel));
 							if (self.currentLevel >= self.levelHigh)
-								self.levelText.colorOverlay(FP.HIGHSCORE_COLOR);
+								self.levelText.texture(FP.font['goldnumbers']);
 							self.scoreText.text(self.padScoreText(self.currentScore));
 							if (self.currentScore >= self.scoreHigh)
-								self.scoreText.colorOverlay(FP.HIGHSCORE_COLOR);
+								self.scoreText.texture(FP.font['goldnumbers']);
 						} else {
 							FP.sfx.play('fail');	
 							

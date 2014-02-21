@@ -25,6 +25,10 @@ Client.prototype.load = function () {
 	var CELLSHEET_DESCRIPTIONS = [ // [ cellsheet filename, number of columns, number of rows ]
 		["rainbowblock.png", 5, 1],
 	];
+	var FONTSHEET_DESCRIPTIONS = [ // fontsheet filename
+		"whitenumbers.png",
+		"goldnumbers.png",
+	];
 	
 	SPRITE_DESCRIPTIONS.forEach(function(description) {
 		var index = description.split(".")[0].replace(/(\/|\\)/g, ''); // collapse whole path into a no-slash string
@@ -33,6 +37,10 @@ Client.prototype.load = function () {
 	CELLSHEET_DESCRIPTIONS.forEach(function(description) {
 		var index = description[0].split(".")[0].replace(/(\/|\\)/g, '');
 		FP.tex[index] = new IgeCellSheet(FP.SPRITE_DIRECTORY + description[0], description[1], description[2]);
+	}, this);
+	FONTSHEET_DESCRIPTIONS.forEach(function(description) {
+		var index = description.split(".")[0].replace(/(\/|\\)/g, '');
+		FP.font[index] = new IgeFontSheet(FP.FONTSHEET_DIRECTORY + description);
 	}, this);
 	
 	FP.backgroundMusic = new Howl({
